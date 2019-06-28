@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.pari.cakecollections.R;
 
-public class MainActivity extends AppCompatActivity {
+public class ListOfCakeActivty extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
