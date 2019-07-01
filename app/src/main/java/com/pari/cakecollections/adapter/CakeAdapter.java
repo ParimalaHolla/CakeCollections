@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.pari.cakecollections.R;
 import com.pari.cakecollections.model.CakeDetail;
+import com.pari.cakecollections.view.RecyclerItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,10 +21,13 @@ public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.MyViewHolder> 
 
     private Context context;
     private ArrayList<CakeDetail> cake = new ArrayList<>();
+    private RecyclerItemClickListener recyclerItemClickListener;
 
-    public  CakeAdapter(Context context,ArrayList<CakeDetail> cake){
-        this.context = context;
+
+    public  CakeAdapter(ArrayList<CakeDetail> cake,RecyclerItemClickListener recyclerItemClickListener){
         this.cake = cake;
+        this.recyclerItemClickListener = recyclerItemClickListener;
+
     }
 
     @NonNull
@@ -35,11 +39,19 @@ public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CakeAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CakeAdapter.MyViewHolder holder, final int position) {
         Log.v("cake name",cake.get(position).getTitle());
 
         holder.cakeTitleName.setText(cake.get(position).getTitle());
         Picasso.get().load(cake.get(position).getImage()).into(holder.cakeImageView);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerItemClickListener.onItemClick(cake.get(position));
+
+            }
+        });
 
     }
 

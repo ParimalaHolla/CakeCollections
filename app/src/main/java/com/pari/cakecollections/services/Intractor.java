@@ -12,6 +12,9 @@ import com.pari.cakecollections.model.CakeList;
 import com.pari.cakecollections.view.ListOfCakeActivty;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -25,8 +28,7 @@ public class Intractor implements GetResponseDataContract.Interactor {
     List<String> allCakesName = new ArrayList<>();
     List<String> allCakesImage = new ArrayList<>();
     List<String> allCakesDesc = new ArrayList<>();
-
-
+    List<CakeDetail> names ;
     public Intractor(GetResponseDataContract.onGetResponseListener mGetResponseListener){
         this.mGetResponseListener = mGetResponseListener;
     }
@@ -46,16 +48,25 @@ public class Intractor implements GetResponseDataContract.Interactor {
             @Override
             public void onResponse(Call<List<CakeDetail>> call, Response<List<CakeDetail>> response) {
                 List<CakeDetail> responseData = response.body();
+                Collections.sort(responseData,CakeDetail.BY_NAME_ALPHABETICAL);
                 Log.v("Response",responseData.toString());
                 for (int i=0;i<responseData.size();i++){
-
                     CakeDetail cake = responseData.get(i);
+
+
                     allCakes.add(cake);
+                    for(int x = 0; x< allCakes.size();x++){
+                        int frequency = Collections.frequency(allCakes, allCakes.get(i));
+                        if(frequency>1){
+                            CakeDetail duplicateEntry= allCakes.get(i);
+                            for(int j = 1 ; j < frequency ; j++)
+                                allCakes.remove(duplicateEntry);
+                        }
+                    }
                     allCakesName.add(cake.getTitle());
+                        allCakesImage.add(cake.getImage());
+                        allCakesDesc.add(cake.getDesc());
 
-                    allCakesImage.add(cake.getImage());
-
-                    allCakesDesc.add(cake.getDesc());
 
                 }
 
@@ -70,5 +81,15 @@ public class Intractor implements GetResponseDataContract.Interactor {
                 mGetResponseListener.onFailure(t.getMessage());
             }
         });
+    }
+    public boolean isExist(String strNama) {
+
+        for (int i = 0; i < names.size(); i++) {
+            if (names.get(i).equals(strNama)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

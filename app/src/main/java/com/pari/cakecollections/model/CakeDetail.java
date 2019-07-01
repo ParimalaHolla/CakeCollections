@@ -2,6 +2,8 @@ package com.pari.cakecollections.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Comparator;
+
 public class CakeDetail {
     @SerializedName("title")
     private String title;
@@ -18,6 +20,12 @@ public class CakeDetail {
         this.desc = desc;
         this.image = image;
     }
+    public static final Comparator<CakeDetail> BY_NAME_ALPHABETICAL = new Comparator<CakeDetail>() {
+        @Override
+        public int compare(CakeDetail cake1, CakeDetail cake2) {
+            return cake1.getTitle().compareTo(cake2.getTitle());
+        }
+    };
 
     public String getTitle() {
         return title;
