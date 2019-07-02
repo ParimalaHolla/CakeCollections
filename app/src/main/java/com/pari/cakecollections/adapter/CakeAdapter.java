@@ -1,13 +1,14 @@
 package com.pari.cakecollections.adapter;
 
-import android.arch.lifecycle.ViewModel;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,11 +18,9 @@ import com.pari.cakecollections.view.RecyclerItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.MyViewHolder> {
-
-    private Context context;
+    private final static int FADE_DURATION = 3000;
     private ArrayList<CakeDetail> cake = new ArrayList<>();
     private RecyclerItemClickListener recyclerItemClickListener;
 
@@ -42,7 +41,6 @@ public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull CakeAdapter.MyViewHolder holder, final int position) {
-        Log.v("cake name",cake.get(position).getTitle());
 
         holder.cakeTitleName.setText(cake.get(position).getTitle());
         Picasso.get().load(cake.get(position).getImage()).into(holder.cakeImageView);
@@ -54,6 +52,7 @@ public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.MyViewHolder> 
 
             }
         });
+        setFadeAnimation(holder.itemView);
 
     }
 
@@ -82,5 +81,9 @@ public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.MyViewHolder> 
         notifyDataSetChanged();
     }
 
-
+    private void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(FADE_DURATION);
+        view.startAnimation(anim);
+    }
 }

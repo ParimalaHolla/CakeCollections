@@ -1,6 +1,5 @@
 package com.pari.cakecollections.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

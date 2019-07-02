@@ -1,10 +1,8 @@
 package com.pari.cakecollections.services;
 
 import android.content.Context;
-import android.os.IInterface;
 
 import com.pari.cakecollections.model.CakeDetail;
-import com.pari.cakecollections.model.CakeList;
 
 import java.util.ArrayList;
 
@@ -13,6 +11,8 @@ public interface GetResponseDataContract {
     interface View{
         void onGetResponseDataSuccess(String msg, ArrayList<CakeDetail> cakes);
         void onGetResponseDataFailure(String msg);
+        void showProgress();
+        void hideProgress();
     }
 
     interface Presenter{

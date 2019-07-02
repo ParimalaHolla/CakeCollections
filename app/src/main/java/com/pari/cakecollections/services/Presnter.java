@@ -5,7 +5,6 @@ import android.content.Context;
 import com.pari.cakecollections.model.CakeDetail;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Presnter implements GetResponseDataContract.Presenter,GetResponseDataContract.onGetResponseListener {
     private GetResponseDataContract.View responseDataView;
@@ -19,11 +18,17 @@ public class Presnter implements GetResponseDataContract.Presenter,GetResponseDa
 
     @Override
     public void getDataFromAPI(Context context, String url) {
+        if (responseDataView != null){
+            responseDataView.showProgress();
+        }
         intractor.initNetowkCall(context,url);
     }
 
     @Override
     public void onRefreshView(Context context, String url) {
+        if (responseDataView != null){
+            responseDataView.showProgress();
+        }
         intractor.initNetowkCall(context,url);
 
     }
@@ -35,11 +40,15 @@ public class Presnter implements GetResponseDataContract.Presenter,GetResponseDa
 
     @Override
     public void onSuccess(String msg, ArrayList<CakeDetail> cakes) {
-        responseDataView.onGetResponseDataSuccess(msg,cakes);
+        if (responseDataView != null) {
+            responseDataView.onGetResponseDataSuccess(msg, cakes);
+            responseDataView.hideProgress();
+        }
     }
 
     @Override
     public void onFailure(String msg) {
         responseDataView.onGetResponseDataFailure(msg);
+        responseDataView.hideProgress();
     }
 }

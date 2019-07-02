@@ -20,10 +20,7 @@ import com.pari.cakecollections.services.GetResponseDataContract;
 import com.pari.cakecollections.services.Presnter;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
+
 
 public class ListOfCakeActivty extends AppCompatActivity implements GetResponseDataContract.View {
       private Presnter presenter;
@@ -33,20 +30,16 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
       private ProgressBar progressBar;
       private SwipeRefreshLayout swipeContainer;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_cake);
+        setupRecyclerview();
         initProgressBar();
         presenter = new Presnter(this);
         presenter.getDataFromAPI(getApplicationContext(),"");
-        swipeContainer = (SwipeRefreshLayout)findViewById(R.id.swipeContainer);
-        recyclerView =  findViewById(R.id.recycler_view_cake_list);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        linearLayoutManager = new LinearLayoutManager(this);
-         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
+        swipeContainer = findViewById(R.id.swipeContainer);
 
          swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
              @Override
@@ -72,14 +65,14 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
         cakeAdapter = new CakeAdapter(cakes,recyclerItemClickListener);
         System.out.println("Adapter Data"+cakes.toString());
         recyclerView.setAdapter(cakeAdapter);
-        Log.d("Sucess Status",msg);
+        Log.v("Sucess Status",msg);
 
 
     }
 
     @Override
     public void onGetResponseDataFailure(String msg) {
-        Log.d("Failure Status",msg);
+        Log.e("Failure Status",msg);
 
     }
 
@@ -91,7 +84,7 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
         public void onItemClick(CakeDetail cakeDetail) {
 
             Toast.makeText(ListOfCakeActivty.this,
-                    " " + cakeDetail.getDesc(),
+                    cakeDetail.getTitle() +" is " + cakeDetail.getDesc(),
                     Toast.LENGTH_LONG).show();
 
         }
@@ -115,15 +108,39 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
         this.addContentView(relativeLayout, params);
     }
 
+    // Destroy
     @Override
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
     }
 
+    /* Refreshing recylerview swipe to refresh */
     private void refreshView(){
         presenter.onRefreshView(getApplicationContext(),"");
         swipeContainer.setRefreshing(false);
+
+
+    }
+    /* Initialization of recyclerview*/
+    private void setupRecyclerview(){
+        recyclerView =  findViewById(R.id.recycler_view_cake_list);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.INVISIBLE);
 
 
     }
