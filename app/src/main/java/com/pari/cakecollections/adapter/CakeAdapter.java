@@ -1,5 +1,6 @@
 package com.pari.cakecollections.adapter;
 
+import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -74,14 +75,12 @@ public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.MyViewHolder> 
             cakeImageView = (ImageView)itemView.findViewById(R.id.cake_img);
         }
     }
-    public void clear(){
+
+
+    public void clear() {
         cake.clear();
         notifyDataSetChanged();
     }
 
-    public void addAll(List<CakeDetail> cakeList){
-        cake.addAll(cakeList);
-        notifyDataSetChanged();
 
-    }
 }

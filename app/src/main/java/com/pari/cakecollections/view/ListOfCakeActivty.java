@@ -31,6 +31,7 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
       LinearLayoutManager linearLayoutManager;
       CakeAdapter cakeAdapter;
       private ProgressBar progressBar;
+      private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
         initProgressBar();
         presenter = new Presnter(this);
         presenter.getDataFromAPI(getApplicationContext(),"");
+        swipeContainer = (SwipeRefreshLayout)findViewById(R.id.swipeContainer);
         recyclerView =  findViewById(R.id.recycler_view_cake_list);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         linearLayoutManager = new LinearLayoutManager(this);
@@ -46,8 +48,23 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
          recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
 
+         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+             @Override
+             public void onRefresh() {
+                 cakeAdapter.clear();
+                 refreshView();
 
-    }
+             }
+         });
+
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+}
+
 
     @Override
     public void onGetResponseDataSuccess(String msg, ArrayList<CakeDetail> cakes) {
@@ -98,5 +115,16 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
         this.addContentView(relativeLayout, params);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
+    }
 
+    private void refreshView(){
+        presenter.onRefreshView(getApplicationContext(),"");
+        swipeContainer.setRefreshing(false);
+
+
+    }
 }

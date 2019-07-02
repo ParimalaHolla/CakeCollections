@@ -11,6 +11,7 @@ public class Presnter implements GetResponseDataContract.Presenter,GetResponseDa
     private GetResponseDataContract.View responseDataView;
     private Intractor intractor;
 
+
     public Presnter(GetResponseDataContract.View getDataView){
         this.responseDataView = getDataView;
         intractor = new Intractor(this);
@@ -19,6 +20,17 @@ public class Presnter implements GetResponseDataContract.Presenter,GetResponseDa
     @Override
     public void getDataFromAPI(Context context, String url) {
         intractor.initNetowkCall(context,url);
+    }
+
+    @Override
+    public void onRefreshView(Context context, String url) {
+        intractor.initNetowkCall(context,url);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        responseDataView = null;
     }
 
     @Override

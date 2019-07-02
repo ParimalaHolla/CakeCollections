@@ -16,7 +16,10 @@ public interface GetResponseDataContract {
     }
 
     interface Presenter{
+        void onDestroy();
         void getDataFromAPI(Context context,String url);
+        void onRefreshView(Context context,String url);
+
     }
 
     interface Interactor{
@@ -28,4 +31,5 @@ public interface GetResponseDataContract {
         void onFailure(String msg);
     }
 
-}
+   }
+
