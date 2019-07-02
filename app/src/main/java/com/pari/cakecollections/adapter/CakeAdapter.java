@@ -16,6 +16,7 @@ import com.pari.cakecollections.view.RecyclerItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.MyViewHolder> {
 
@@ -72,5 +73,15 @@ public class CakeAdapter extends RecyclerView.Adapter<CakeAdapter.MyViewHolder> 
             cakeTitleName = (TextView)itemView.findViewById(R.id.cake_title);
             cakeImageView = (ImageView)itemView.findViewById(R.id.cake_img);
         }
+    }
+    public void clear(){
+        cake.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<CakeDetail> cakeList){
+        cake.addAll(cakeList);
+        notifyDataSetChanged();
+
     }
 }

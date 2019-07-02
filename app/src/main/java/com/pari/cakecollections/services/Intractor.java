@@ -12,10 +12,21 @@ import com.pari.cakecollections.model.CakeList;
 import com.pari.cakecollections.view.ListOfCakeActivty;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -53,26 +64,21 @@ public class Intractor implements GetResponseDataContract.Interactor {
                 for (int i=0;i<responseData.size();i++){
                     CakeDetail cake = responseData.get(i);
 
-
                     allCakes.add(cake);
-                    for(int x = 0; x< allCakes.size();x++){
-                        int frequency = Collections.frequency(allCakes, allCakes.get(i));
-                        if(frequency>1){
-                            CakeDetail duplicateEntry= allCakes.get(i);
-                            for(int j = 1 ; j < frequency ; j++)
-                                allCakes.remove(duplicateEntry);
-                        }
-                    }
-                    allCakesName.add(cake.getTitle());
-                        allCakesImage.add(cake.getImage());
-                        allCakesDesc.add(cake.getDesc());
-
 
                 }
 
+                  HashSet<CakeDetail> hashSet = new HashSet<>();
+                  hashSet.addAll(allCakes);
+                  allCakes.clear();
+                  allCakes.addAll(hashSet);
+               Collections.sort(allCakes, CakeDetail.BY_NAME_ALPHABETICAL);
+
+
+
 
                 Log.d("Data","Refreshed");
-                mGetResponseListener.onSuccess("list size :"+allCakesName.size(),allCakes);
+                mGetResponseListener.onSuccess("list size :"+allCakes.size(),allCakes);
             }
 
             @Override
@@ -82,14 +88,7 @@ public class Intractor implements GetResponseDataContract.Interactor {
             }
         });
     }
-    public boolean isExist(String strNama) {
 
-        for (int i = 0; i < names.size(); i++) {
-            if (names.get(i).equals(strNama)) {
-                return true;
-            }
-        }
 
-        return false;
-    }
+
 }

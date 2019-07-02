@@ -1,5 +1,6 @@
 package com.pari.cakecollections.view;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -38,7 +39,6 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
         initProgressBar();
         presenter = new Presnter(this);
         presenter.getDataFromAPI(getApplicationContext(),"");
-
         recyclerView =  findViewById(R.id.recycler_view_cake_list);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         linearLayoutManager = new LinearLayoutManager(this);
@@ -97,4 +97,6 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
 
         this.addContentView(relativeLayout, params);
     }
+
+
 }

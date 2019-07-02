@@ -3,6 +3,7 @@ package com.pari.cakecollections.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 public class CakeDetail {
     @SerializedName("title")
@@ -49,5 +50,20 @@ public class CakeDetail {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof CakeDetail){
+           CakeDetail cake = (CakeDetail)obj;
+            return (cake.title.equals(this.title));
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(title);
     }
 }
