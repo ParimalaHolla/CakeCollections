@@ -61,7 +61,7 @@ public class RecyclerviewUnitTest {
   }
 
   @Test
-    public void testLoadWeatherData_andSucceed() throws Exception {
+    public void testLoadCakeData_andSucceed() throws Exception {
       String url = "https://gist.githubusercontent.com";
       presenter.getDataFromAPI(context,url);
       Mockito.when(allCakeList.getCakeList()).thenReturn(cakeDetails);
@@ -71,7 +71,7 @@ public class RecyclerviewUnitTest {
         }
 
   @Test
-  public void testLoadWeatherData_andFailed() throws Exception {
+  public void testLoadCakeData_andFailed() throws Exception {
       String url = "https://gist.com";
       presenter.getDataFromAPI(context,url);
       Mockito.when(allCakeList.getCakeList()).thenReturn(cakeDetails);
