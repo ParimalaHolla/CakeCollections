@@ -6,12 +6,12 @@ import com.pari.cakecollections.model.CakeDetail;
 
 import java.util.ArrayList;
 
-public class Presnter implements GetResponseDataContract.Presenter,GetResponseDataContract.onGetResponseListener {
+public class Presenter implements GetResponseDataContract.Presenter,GetResponseDataContract.onGetResponseListener {
     private GetResponseDataContract.View responseDataView;
     private Intractor intractor;
 
 
-    public Presnter(GetResponseDataContract.View getDataView){
+    public Presenter(GetResponseDataContract.View getDataView){
         this.responseDataView = getDataView;
         intractor = new Intractor(this);
     }
@@ -21,7 +21,7 @@ public class Presnter implements GetResponseDataContract.Presenter,GetResponseDa
         if (responseDataView != null){
             responseDataView.showProgress();
         }
-        intractor.initNetowkCall(context,url);
+        intractor.initNetworkCall(context,url);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class Presnter implements GetResponseDataContract.Presenter,GetResponseDa
         if (responseDataView != null){
             responseDataView.showProgress();
         }
-        intractor.initNetowkCall(context,url);
+        intractor.initNetworkCall(context,url);
 
     }
 

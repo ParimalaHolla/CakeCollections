@@ -24,7 +24,7 @@ public class Intractor implements GetResponseDataContract.Interactor {
     }
 
     @Override
-    public void initNetowkCall(Context context, String url) {
+    public void initNetworkCall(Context context, String url) {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -54,9 +54,14 @@ public class Intractor implements GetResponseDataContract.Interactor {
             @Override
             public void onFailure(Call<List<CakeDetail>> call, Throwable t) {
                 Log.v("Error",t.getMessage());
+
                 mGetResponseListener.onFailure(t.getMessage());
             }
         });
+    }
+
+    private void uniqueItemsSorting(ArrayList<CakeDetail> cakes){
+
     }
 
 

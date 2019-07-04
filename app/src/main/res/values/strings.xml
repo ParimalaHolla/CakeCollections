@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CakeCollections</string>
     <string name="welcome">Welcome</string>
+    <string name="main_error_connection">network failure : inform the user and possibly retry</string>
 </resources>

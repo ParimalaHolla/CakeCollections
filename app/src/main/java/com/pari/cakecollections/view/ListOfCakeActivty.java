@@ -1,6 +1,8 @@
 package com.pari.cakecollections.view;
 
+import android.content.DialogInterface;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -17,13 +19,13 @@ import com.pari.cakecollections.R;
 import com.pari.cakecollections.adapter.CakeAdapter;
 import com.pari.cakecollections.model.CakeDetail;
 import com.pari.cakecollections.services.GetResponseDataContract;
-import com.pari.cakecollections.services.Presnter;
+import com.pari.cakecollections.services.Presenter;
 
 import java.util.ArrayList;
 
 
 public class ListOfCakeActivty extends AppCompatActivity implements GetResponseDataContract.View {
-      private Presnter presenter;
+      private Presenter presenter;
       RecyclerView recyclerView;
       LinearLayoutManager linearLayoutManager;
       CakeAdapter cakeAdapter;
@@ -37,7 +39,7 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
         setContentView(R.layout.activity_list_cake);
         setupRecyclerview();
         initProgressBar();
-        presenter = new Presnter(this);
+        presenter = new Presenter(this);
         presenter.getDataFromAPI(getApplicationContext(),"");
         swipeContainer = findViewById(R.id.swipeContainer);
 
@@ -73,6 +75,8 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
     @Override
     public void onGetResponseDataFailure(String msg) {
         Log.e("Failure Status",msg);
+       // Toast.makeText(ListOfCakeActivty.this, "network failure : inform the user and possibly retry", Toast.LENGTH_SHORT).show();
+     showConnectionError();
 
     }
 
@@ -115,6 +119,12 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
         presenter.onDestroy();
     }
 
+    @Override
+    public void showConnectionError() {
+        Toast.makeText(this, R.string.main_error_connection, Toast.LENGTH_SHORT).show();
+
+    }
+
     /* Refreshing recylerview swipe to refresh */
     private void refreshView(){
         presenter.onRefreshView(getApplicationContext(),"");
@@ -143,5 +153,19 @@ public class ListOfCakeActivty extends AppCompatActivity implements GetResponseD
         progressBar.setVisibility(View.INVISIBLE);
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Exit?")
+                .setMessage("Are you sure you want to exist?")
+                .setNegativeButton(android.R.string.no,null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ListOfCakeActivty.super.onBackPressed();
+                    }
+                }).create().show();
     }
 }

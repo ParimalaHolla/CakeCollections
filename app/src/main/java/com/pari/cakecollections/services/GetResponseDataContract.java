@@ -13,6 +13,8 @@ public interface GetResponseDataContract {
         void onGetResponseDataFailure(String msg);
         void showProgress();
         void hideProgress();
+        void showConnectionError();
+
     }
 
     interface Presenter{
@@ -23,7 +25,7 @@ public interface GetResponseDataContract {
     }
 
     interface Interactor{
-        void initNetowkCall(Context context,String url);
+        void initNetworkCall(Context context, String url);
     }
 
     interface onGetResponseListener{
